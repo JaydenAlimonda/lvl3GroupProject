@@ -2,7 +2,7 @@ export default function Form(props) {
     const { handleChange, meme, getImage } = props
 
     return (
-        <div>
+        <div className="form-container">
             <form onSubmit={getImage}>
                 <input
                     type="top-text"

@@ -50,7 +50,7 @@ export default function App() {
     }
 
     return (
-        <div>
+        <div className='app-container'>
             <h1>Meme Generator</h1>
             <Form
                 handleChange={handleChange}
