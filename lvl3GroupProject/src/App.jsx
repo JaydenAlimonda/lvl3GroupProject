@@ -51,7 +51,7 @@ export default function App() {
 
     return (
         <div className='app-container'>
-            <h1>Meme Generator</h1>
+            <h1 className='title'>Meme Generator</h1>
             <Form
                 handleChange={handleChange}
                 meme={meme}
