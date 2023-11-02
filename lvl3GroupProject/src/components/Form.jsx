@@ -3,7 +3,7 @@ export default function Form(props) {
 
     return (
         <div className="form-container">
-            <form onSubmit={getImage}>
+            <form>
                 <input
                     type="top-text"
                     placeholder="Top Text"
@@ -20,6 +20,7 @@ export default function Form(props) {
                     onChange={handleChange}
                     value={meme.bottomText}
                 />
+                <button className="new-meme-button" onClick={getImage}>GET NEW IMG</button>
                 <button className="submit-button" >Submit</button>
             </form>
         </div>
