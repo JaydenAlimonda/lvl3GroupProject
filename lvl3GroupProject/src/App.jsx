@@ -11,8 +11,6 @@ export default function App() {
             .then(res => setMeme({
                 img: res.data.data.memes[randomNumber].url
             }))
-
-
     }, [])
 
     const [meme, setMeme] = useState({
