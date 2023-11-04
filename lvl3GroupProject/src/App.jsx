@@ -1,65 +1,63 @@
-import { useEffect, useState } from 'react'
-import Form from './components/Form'
-import Image from './components/Image' 
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import Meme from './components/Meme';
+import CreatedMemes from './components/CreatedMemes';
+import axios from 'axios';
 
 export default function App() {
-    const randomNumber = Math.floor(Math.random() * 100)
+  const [meme, setMeme] = useState({
+    topText: '',
+    bottomText: '',
+    img: '',
+  });
 
-    useEffect(() => {
-        axios.get('https://api.imgflip.com/get_memes')
-            .then(res => setMeme({
-                img: res.data.data.memes[randomNumber].url
-            }))
+  const [allMemes, setAllMemes] = useState([]);
+  const [createdMemes, setCreatedMemes] = useState([]);
 
+  useEffect(() => {
+    axios.get('https://api.imgflip.com/get_memes')
+      .then((response) => {
+        setAllMemes(response.data.data.memes);
+      })
+      .catch((error) => {
+        console.error('Error fetching memes:', error);
+      });
+  }, []);
 
-    }, [])
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setMeme((prevMeme) => ({
+      ...prevMeme,
+      [name]: value,
+    }));
+  }
 
-    const [meme, setMeme] = useState({
-        topText: '',
-        bottomText: '',
-        img: '',
-    })
+  function getMemeImage() {
+    const randomNumber = Math.floor(Math.random() * allMemes.length);
+    const url = allMemes[randomNumber].url;
+    setMeme({
+      ...meme,
+      img: url,
+    });
+  }
 
-    const [memeImages, setMemeImages] = useState([])
+  function saveMeme() {
+      const newMeme = {
+        topText: meme.topText,
+        bottomText: meme.bottomText,
+        img: meme.img,
+      };
+      setCreatedMemes((prevMemes) => [...prevMemes, newMeme]);
+  }
 
-    useEffect(() => {
-        axios.get('https://api.imgflip.com/get_memes')
-            .then(res => setMemeImages(res.data.data.memes))
-    }, [])
-
-    const getImage = (e) => {
-        e.preventDefault()
-
-        const randomNumber = Math.floor(Math.random() * memeImages.length)
-        const url = memeImages[randomNumber].url
-
-        setMeme(prevMeme => ({
-            ...prevMeme,
-            img: url
-        }))
-    }
-
-
-    const handleChange = (event) => {
-        const { name, value } = event.target
-        setMeme(prevMeme => ({
-            ...prevMeme,
-            [name]: value
-        }))
-    }
-
-    return (
-        <div className='app-container'>
-            <h1 className='title'>Meme Generator</h1>
-            <Form
-                handleChange={handleChange}
-                meme={meme}
-                getImage={getImage}
-            />
-            <Image meme={meme} />
-        </div>
-    )
-
+  return (
+    <div className="app-container">
+      <h1 className="title">Meme Generator</h1>
+      <Meme meme={meme} handleChange={handleChange} getMemeImage={getMemeImage} />
+      <button className="save-button" onClick={saveMeme}>
+        Save
+      </button>
+      <CreatedMemes createdMemes={createdMemes} />
+    </div>
+  );
 }
 
