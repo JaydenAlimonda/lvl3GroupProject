@@ -4,7 +4,7 @@ import React from 'react';
 export default function Meme({ meme, handleChange, getMemeImage }) {
   return (
     <main>
-      <div className="form">
+      <div className="current--meme">
         <input
           type="text"
           placeholder="Top text"
@@ -22,14 +22,15 @@ export default function Meme({ meme, handleChange, getMemeImage }) {
           onChange={handleChange}
         />
         <button className="form--button" onClick={getMemeImage}>
-        Get a new meme image 🖼
+        Get a new meme image
       </button>
       </div>
       <div className="meme">
-        <img src={meme.img} className="meme--image" alt="Meme" />
-        <h2 className="meme--text top">{meme.topText}</h2>
-        <h2 className="meme--text bottom">{meme.bottomText}</h2>
+        <img src={meme.img} className="meme--image" />
+        <h2 className="currentMeme--topText">{meme.topText}</h2>
+        <h2 className="currentMeme--bottomText">{meme.bottomText}</h2>
       </div>
+      
     </main>
   );
 }
